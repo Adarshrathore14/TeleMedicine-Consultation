@@ -1,0 +1,146 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GlobalExceptionalHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.telemedicine.registration.exceptions</a>
+</div>
+
+<h1>Coverage Summary for Class: GlobalExceptionalHandler (com.telemedicine.registration.exceptions)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GlobalExceptionalHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.telemedicine.registration.exceptions;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.http.converter.HttpMessageNotReadableException;
+&nbsp;import org.springframework.web.bind.MethodArgumentNotValidException;
+&nbsp;import org.springframework.web.bind.annotation.ExceptionHandler;
+&nbsp;import org.springframework.web.bind.annotation.RestControllerAdvice;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;@RestControllerAdvice
+<b class="fc">&nbsp;public class GlobalExceptionalHandler {</b>
+&nbsp;    @ExceptionHandler(MethodArgumentNotValidException.class)
+&nbsp;    public ResponseEntity&lt;Map&lt;String,String&gt;&gt; handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
+<b class="fc">&nbsp;        Map&lt;String,String&gt; validationErrors = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        exception.getBindingResult().getFieldErrors().forEach(error-&gt;</b>
+<b class="fc">&nbsp;                validationErrors.put(error.getField(),error.getDefaultMessage()));</b>
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(validationErrors);</b>
+&nbsp;    }
+&nbsp;    @ExceptionHandler(AccountActivationException.class)
+&nbsp;    public ResponseEntity&lt;String&gt; handleAccountActivationException(AccountActivationException exception){
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exception.getMessage());</b>
+&nbsp;    }
+&nbsp;    @ExceptionHandler(ActivationCodeException.class)
+&nbsp;    public ResponseEntity&lt;String&gt; handleActivationCodeException(ActivationCodeException exception){
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());</b>
+&nbsp;    }
+&nbsp;    @ExceptionHandler(HttpMessageNotReadableException.class) //for Invalid Date
+&nbsp;    public ResponseEntity&lt;String&gt; handleHttpMessageNotReadableException(HttpMessageNotReadableException exception){
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());</b>
+&nbsp;    }
+&nbsp;    @ExceptionHandler(DeserializationException.class)
+&nbsp;    public ResponseEntity&lt;String&gt; handleDeserializationException(DeserializationException exception){
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());</b>
+&nbsp;    }
+&nbsp;    @ExceptionHandler(SerializationException.class)
+&nbsp;    public ResponseEntity&lt;String&gt; handleSerializationException(SerializationException exception){
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());</b>
+&nbsp;    }
+&nbsp;    @ExceptionHandler(InvalidMobileNumberException.class)
+&nbsp;    public ResponseEntity&lt;String&gt; handleInvalidMobileNumberException(InvalidMobileNumberException exception){
+<b class="fc">&nbsp;        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-18 09:31</div>
+</div>
+</body>
+</html>

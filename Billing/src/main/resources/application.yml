@@ -1,0 +1,29 @@
+server:
+  port: 9086
+spring:
+ application:
+    name: billing-service
+ kafka:
+    consumer:
+      bootstrap-servers: localhost:9092,localhost:9094
+      auto-offset-reset: latest
+      group-id: test
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: com.telemedicine.billing.CustomDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "com.virtusa.billing.dto"
+ datasource:
+  url: jdbc:mysql://localhost:3306/telemedicine
+  username: root
+  password: root
+  driver-class-name: com.mysql.cj.jdbc.Driver
+ jpa:
+  hibernate:
+   ddl-auto: update
+  show-sql: true
+  properties: 
+   hibernate:
+    dialect: org.hibernate.dialect.MySQLDialect

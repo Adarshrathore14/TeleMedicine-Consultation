@@ -1,0 +1,55 @@
+server:
+  port: 8789
+spring:
+  application:
+    name: video-call
+  datasource:
+    url: jdbc:mysql://localhost:3306/telemedicine?allowPublicKeyRetrieval=true&&useSSL=false
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /apiDocs
+        
+#management:
+#  health:
+#    circuitbreakers:
+#      enabled: true
+#  endpoints:
+#    web:
+#      exposure:
+#        include: health
+#  endpoint:
+#    health:
+#      show-details: always
+#resilience4j:
+#  circuitbreaker:
+#    instances:
+#      Billing-Service:
+#        registerHealthIndicator: true
+#        failureRateThreshold: 50
+#        automaticTransitionFromOpenToHalfOpenEnabled: true
+#        waitDurationInOpenState: 5s
+#        permittedNumberOfCallsInHalfOpenState: 3
+#        sliding-window-size: 5
+#        sliding-window-type: count-based
+#appointment:
+#  length: 2
+#  code: APP
+#payment:
+#  pending: pending
+#  paid: paid
+#message:
+#  success: success
+#springdoc:
+#  api-docs:
+#    path: /apiDocs

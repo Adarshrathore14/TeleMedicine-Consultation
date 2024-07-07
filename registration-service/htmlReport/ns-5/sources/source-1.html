@@ -1,0 +1,123 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ValidateAgeCheck</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.telemedicine.registration.customannotations</a>
+</div>
+
+<h1>Coverage Summary for Class: ValidateAgeCheck (com.telemedicine.registration.customannotations)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ValidateAgeCheck</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.telemedicine.registration.customannotations;
+&nbsp;import jakarta.validation.ConstraintValidator;
+&nbsp;import jakarta.validation.ConstraintValidatorContext;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.time.Period;
+&nbsp;
+<b class="fc">&nbsp;public class ValidateAgeCheck implements ConstraintValidator&lt;AgeValidator, LocalDate&gt; {</b>
+&nbsp;    @Override
+&nbsp;    public void initialize(AgeValidator constraintAnnotation) {
+<b class="fc">&nbsp;        ConstraintValidator.super.initialize(constraintAnnotation);</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public boolean isValid(LocalDate value, ConstraintValidatorContext context) {
+<b class="fc">&nbsp;        if(value!=null){</b>
+<b class="fc">&nbsp;            return Period.between(value,LocalDate.now()).getYears()&gt;=18;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-18 09:31</div>
+</div>
+</body>
+</html>

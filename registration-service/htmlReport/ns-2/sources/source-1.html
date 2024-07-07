@@ -1,0 +1,151 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ActivateAccount</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.telemedicine.registration.accountactivationandinitiation</a>
+</div>
+
+<h1>Coverage Summary for Class: ActivateAccount (com.telemedicine.registration.accountactivationandinitiation)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ActivateAccount</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    78.9%
+  </span>
+  <span class="absValue">
+    (15/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.telemedicine.registration.accountactivationandinitiation;
+&nbsp;import com.telemedicine.registration.configurations.AccountActivationConfiguration;
+&nbsp;import com.telemedicine.registration.configurations.HospitalMessageConfiguration;
+&nbsp;import com.telemedicine.registration.entity.PatientEntity;
+&nbsp;import io.jsonwebtoken.Jwts;
+&nbsp;import io.jsonwebtoken.SignatureAlgorithm;
+&nbsp;import io.jsonwebtoken.io.Decoders;
+&nbsp;import io.jsonwebtoken.security.Keys;
+&nbsp;import lombok.NonNull;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;import java.security.Key;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;@Component
+<b class="fc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;public class ActivateAccount {
+&nbsp;    @NonNull
+&nbsp;    private final AccountActivationConfiguration accountActivationConfiguration;
+&nbsp;    @NonNull
+&nbsp;    private final HospitalMessageConfiguration hospitalMessageConfiguration;
+<b class="fc">&nbsp;    private final List&lt;PatientEntity&gt; patientList = new ArrayList&lt;&gt;();</b>
+&nbsp;    public String generateAccountActivationToken(String patientName, PatientEntity patient){
+<b class="fc">&nbsp;        Map&lt;String,String&gt; claims = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        claims.put(&quot;patientName&quot;,patientName);</b>
+<b class="fc">&nbsp;        return createAccountActivationToken(claims,patient);</b>
+&nbsp;    }
+&nbsp;    private String createAccountActivationToken(Map&lt;String, String&gt; claims, PatientEntity patient) {
+<b class="fc">&nbsp;        patientList.add(patient);</b>
+<b class="fc">&nbsp;        return Jwts.builder()</b>
+<b class="fc">&nbsp;                .setClaims(claims)</b>
+<b class="fc">&nbsp;                .setSubject(hospitalMessageConfiguration.getCode())</b>
+<b class="fc">&nbsp;                .setIssuedAt(new Date(System.currentTimeMillis()))</b>
+<b class="fc">&nbsp;                .setExpiration(new Date(System.currentTimeMillis()+ accountActivationConfiguration.getExpirationTime()))</b>
+<b class="fc">&nbsp;                .signWith(getsignkey(), SignatureAlgorithm.HS256)</b>
+<b class="fc">&nbsp;                .compact();</b>
+&nbsp;    }
+&nbsp;    private Key getsignkey() {
+<b class="fc">&nbsp;        byte[] keys = Decoders.BASE64.decode(accountActivationConfiguration.getSecretKey());</b>
+<b class="fc">&nbsp;        return Keys.hmacShaKeyFor(keys);</b>
+&nbsp;    }
+&nbsp;    public PatientEntity getPatientByPatientName(String patientName){
+<b class="nc">&nbsp;        PatientEntity patient = patientList.stream().filter(patientEntity -&gt; patientEntity.getPatientName().equals(patientName))</b>
+<b class="nc">&nbsp;                .toList().get(0);</b>
+<b class="nc">&nbsp;        patientList.removeIf(patientEntity -&gt; patientEntity.getPatientName().equals(patientName));</b>
+<b class="nc">&nbsp;        return patient;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-18 09:31</div>
+</div>
+</body>
+</html>

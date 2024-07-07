@@ -1,0 +1,88 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > UpdateRecordApiDefinition</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.telemedicine.appointment.apidefinitions</a>
+</div>
+
+<h1>Coverage Summary for Class: UpdateRecordApiDefinition (com.telemedicine.appointment.apidefinitions)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">UpdateRecordApiDefinition</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.telemedicine.appointment.apidefinitions;
+&nbsp;import com.telemedicine.appointment.exceptions.InvalidAppointmentIdException;
+&nbsp;import com.telemedicine.appointment.exceptions.InvalidDoctorIdException;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponses;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.PathVariable;
+&nbsp;
+&nbsp;@Tag(name = &quot;update record&quot;,description = &quot;updates the payment and notification status along with slot adjustment&quot;)
+&nbsp;public interface UpdateRecordApiDefinition {
+&nbsp;    @Operation(summary = &quot;updates the payment and notification status along with slot adjustment&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;,description = &quot;values are being updated and slot adjustment is done&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;,description = &quot;appointment Id is not a valid one&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;,description = &quot;doctorId is not a valid one&quot;)
+&nbsp;    })
+&nbsp;    ResponseEntity&lt;String&gt; updateRecord(@PathVariable int appointmentId) throws InvalidAppointmentIdException,
+&nbsp;            InvalidDoctorIdException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-28 18:22</div>
+</div>
+</body>
+</html>

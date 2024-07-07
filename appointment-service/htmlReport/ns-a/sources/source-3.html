@@ -1,0 +1,100 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > AppointmentApiDefinition</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.telemedicine.appointment.apidefinitions</a>
+</div>
+
+<h1>Coverage Summary for Class: AppointmentApiDefinition (com.telemedicine.appointment.apidefinitions)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">AppointmentApiDefinition</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.telemedicine.appointment.apidefinitions;
+&nbsp;import com.telemedicine.appointment.dto.AppointmentResponse;
+&nbsp;import com.telemedicine.appointment.dto.NotificationResponse;
+&nbsp;import com.telemedicine.appointment.entity.AppointmentDetailsEntity;
+&nbsp;import com.telemedicine.appointment.exceptions.*;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.parameters.RequestBody;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponses;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.PathVariable;
+&nbsp;
+&nbsp;@Tag(name = &quot;appointment&quot;,description = &quot;describes how to book an appointment with the doctor&quot;)
+&nbsp;public interface AppointmentApiDefinition {
+&nbsp;    @Operation(summary = &quot;Adds an appointment with the doctor&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;201&quot;,description = &quot;appointment created successfully&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;406&quot;,description = &quot;validation errors&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;409&quot;,description = &quot;Appointment already booked on this Date&quot;)
+&nbsp;    })
+&nbsp;    ResponseEntity&lt;AppointmentResponse&gt; addAppointment(@PathVariable int doctorId, @Valid @RequestBody
+&nbsp;    AppointmentDetailsEntity appointmentDetails) throws InvalidDoctorIdException, ServiceUnavailableException,
+&nbsp;            AppointmentAlreadyExistsException, InvalidSlotIdException;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;get the Appointment Details By AppointmentId&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;,description = &quot;data generated&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;,description = &quot;invalid appointmentId&quot;)
+&nbsp;    })
+&nbsp;    ResponseEntity&lt;NotificationResponse&gt; getAppointmentDetails(int appointmentId) throws InvalidAppointmentIdException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-28 18:22</div>
+</div>
+</body>
+</html>

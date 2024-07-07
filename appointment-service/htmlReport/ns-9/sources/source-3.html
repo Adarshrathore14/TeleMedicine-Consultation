@@ -1,0 +1,155 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > UpdateRecordServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.telemedicine.appointment.serviceimplementation</a>
+</div>
+
+<h1>Coverage Summary for Class: UpdateRecordServiceImpl (com.telemedicine.appointment.serviceimplementation)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UpdateRecordServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">UpdateRecordServiceImpl$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.telemedicine.appointment.serviceimplementation;
+&nbsp;import com.telemedicine.appointment.configurations.MessageConfiguration;
+&nbsp;import com.telemedicine.appointment.configurations.PaymentConfiguration;
+&nbsp;import com.telemedicine.appointment.entity.AppointmentDetailsEntity;
+&nbsp;import com.telemedicine.appointment.entity.Schedule;
+&nbsp;import com.telemedicine.appointment.exceptions.InvalidAppointmentIdException;
+&nbsp;import com.telemedicine.appointment.exceptions.InvalidDoctorIdException;
+&nbsp;import com.telemedicine.appointment.repository.AppointmentRepository;
+&nbsp;import com.telemedicine.appointment.repository.ScheduleRepository;
+&nbsp;import com.telemedicine.appointment.repository.SlotRepository;
+&nbsp;import com.telemedicine.appointment.service.UpdateRecordService;
+&nbsp;import jakarta.transaction.Transactional;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import java.util.List;
+&nbsp;@Service
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+&nbsp;public class UpdateRecordServiceImpl implements UpdateRecordService {
+&nbsp;    private final AppointmentRepository appointmentRepository;
+&nbsp;    private final ScheduleRepository scheduleRepository;
+&nbsp;    private final SlotRepository slotRepository;
+&nbsp;    private final PaymentConfiguration paymentConfiguration;
+&nbsp;    private final MessageConfiguration messageConfiguration;
+&nbsp;    @Override
+&nbsp;    @Transactional
+&nbsp;    public String update(int appointmentId) throws InvalidAppointmentIdException, InvalidDoctorIdException {
+<b class="fc">&nbsp;        AppointmentDetailsEntity appointmentDetails = appointmentRepository.findByAppointmentId(appointmentId)</b>
+<b class="fc">&nbsp;                .orElseThrow(()-&gt;new InvalidAppointmentIdException(&quot;invalid appointment id: &quot;+appointmentId));</b>
+<b class="fc">&nbsp;        appointmentDetails.setPaymentStatus(paymentConfiguration.getPaid());</b>
+<b class="fc">&nbsp;        appointmentDetails.setNotificationStatus(true);</b>
+<b class="fc">&nbsp;        appointmentRepository.save(appointmentDetails);</b>
+<b class="fc">&nbsp;        Schedule doctorSchedule = scheduleRepository.findByDoctorId(appointmentDetails.getDoctorId()).orElseThrow(</b>
+<b class="fc">&nbsp;                ()-&gt;new InvalidDoctorIdException(&quot;invalid doctor id: &quot;+appointmentDetails.getDoctorId()));</b>
+<b class="fc">&nbsp;        List&lt;Integer&gt; doctorSlots = doctorSchedule.getSlotsAvailable();</b>
+<b class="fc">&nbsp;        int slotId = appointmentDetails.getSlotId();</b>
+<b class="fc">&nbsp;        doctorSlots.removeIf(slotIds -&gt; slotIds == slotId);</b>
+<b class="fc">&nbsp;        doctorSchedule.setSlotsAvailable(doctorSlots);</b>
+<b class="fc">&nbsp;        scheduleRepository.save(doctorSchedule);</b>
+<b class="fc">&nbsp;        slotRepository.deleteById(slotId);</b>
+<b class="fc">&nbsp;        return messageConfiguration.getSuccess();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-28 18:22</div>
+</div>
+</body>
+</html>

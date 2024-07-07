@@ -1,0 +1,102 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ScheduleApiDefinition</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.telemedicine.appointment.apidefinitions</a>
+</div>
+
+<h1>Coverage Summary for Class: ScheduleApiDefinition (com.telemedicine.appointment.apidefinitions)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ScheduleApiDefinition</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.telemedicine.appointment.apidefinitions;
+&nbsp;import com.telemedicine.appointment.dto.ScheduleResponse;
+&nbsp;import com.telemedicine.appointment.exceptions.InvalidDoctorIdException;
+&nbsp;import com.telemedicine.appointment.exceptions.NoSchedulesAvailableException;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponses;
+&nbsp;import io.swagger.v3.oas.annotations.tags.Tag;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.PathVariable;
+&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.List;
+&nbsp;@Tag(name = &quot;schedule&quot;,description = &quot;provides the schedules of each doctors to the patient&quot;)
+&nbsp;public interface ScheduleApiDefinition {
+&nbsp;    @Operation(summary = &quot;Gets the list of doctor schedules based on date&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;,description = &quot;gets the list of schedules based on date&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;,description = &quot;no doctor schedules available on this date&quot;)
+&nbsp;    })
+&nbsp;    ResponseEntity&lt;List&lt;ScheduleResponse&gt;&gt; getByDate(@RequestParam LocalDate date)
+&nbsp;            throws NoSchedulesAvailableException;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Gets the list of schedule for a specific doctor based on doctorId and date &quot; +
+&nbsp;            &quot;or based on doctorId&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;,description = &quot;gets the list of schedules for a doctor based on doctorId&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;,description = &quot;gets the list of schedules for a doctor based on doctorId &quot; +
+&nbsp;                    &quot;and date&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;,description = &quot;doctor id is not a valid one&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;,description = &quot;no schedules available for the doctor on the date&quot;)
+&nbsp;    })
+&nbsp;    ResponseEntity&lt;ScheduleResponse&gt; getSchedulesByDoctorId(@PathVariable int doctorId, @RequestParam LocalDate date)
+&nbsp;            throws InvalidDoctorIdException, NoSchedulesAvailableException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-28 18:22</div>
+</div>
+</body>
+</html>

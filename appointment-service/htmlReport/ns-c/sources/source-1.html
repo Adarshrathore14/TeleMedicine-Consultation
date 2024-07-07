@@ -1,0 +1,92 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ScheduleRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.telemedicine.appointment.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: ScheduleRepository (com.telemedicine.appointment.repository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">ScheduleRepository$MockitoMock$NNVfcf4w</td>
+  </tr>
+  <tr>
+    <td class="name">ScheduleRepository$MockitoMock$NNVfcf4w$auxiliary$BXJIzpgW</td>
+  </tr>
+  <tr>
+    <td class="name">ScheduleRepository$MockitoMock$NNVfcf4w$auxiliary$VB9PeWo6</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.telemedicine.appointment.repository;
+&nbsp;import com.telemedicine.appointment.entity.Schedule;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;public interface ScheduleRepository extends JpaRepository&lt;Schedule,Integer&gt; {
+&nbsp;    //get all availability by Date;
+&nbsp;    Optional&lt;List&lt;Schedule&gt;&gt; findAllByScheduleDate(LocalDate scheduleDate);
+&nbsp;    // get all availability of the doctor
+&nbsp;    Optional&lt;Schedule&gt; findByDoctorId(int doctorId);
+&nbsp;    // exists by doctorId (when the patient enters a wrong doctor Id)
+&nbsp;    Boolean existsByDoctorId(int doctorId);
+&nbsp;    //get all availability by Date and Doctor
+&nbsp;    Optional&lt;Schedule&gt; findByDoctorIdAndScheduleDate(int doctorId,LocalDate scheduleDate);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-28 18:22</div>
+</div>
+</body>
+</html>

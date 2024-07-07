@@ -1,0 +1,149 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ValidateToken</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.telemedicine.authorization.securityconfig</a>
+</div>
+
+<h1>Coverage Summary for Class: ValidateToken (com.telemedicine.authorization.securityconfig)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ValidateToken</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.9%
+  </span>
+  <span class="absValue">
+    (13/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.telemedicine.authorization.securityconfig;
+&nbsp;import io.jsonwebtoken.Claims;
+&nbsp;import io.jsonwebtoken.Jwts;
+&nbsp;import io.jsonwebtoken.io.Decoders;
+&nbsp;import io.jsonwebtoken.security.Keys;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;import java.security.Key;
+&nbsp;import java.util.Date;
+&nbsp;@Component
+<b class="fc">&nbsp;public class ValidateToken {</b>
+&nbsp;    public String extractUserName(String token) {
+<b class="fc">&nbsp;        return extractAllClaims(token).get(&quot;userId&quot;).toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public Date getExpirationDate(String token) {
+<b class="fc">&nbsp;        return extractAllClaims(token).getExpiration();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String extractRole(String token) {
+<b class="fc">&nbsp;        return extractAllClaims(token).get(&quot;role&quot;).toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Claims extractAllClaims(String token) {
+&nbsp;        return Jwts
+<b class="fc">&nbsp;                .parserBuilder()</b>
+<b class="fc">&nbsp;                .setSigningKey(getSignkey())</b>
+<b class="fc">&nbsp;                .build()</b>
+<b class="fc">&nbsp;                .parseClaimsJws(token)</b>
+<b class="fc">&nbsp;                .getBody();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    Key getSignkey() {
+<b class="fc">&nbsp;        String jwtSecret = &quot;AbcHospitalFSKfo+3f6jDrc3fOeJ2vtiLoB+Pn/zNpBv1gSykXb0I0jPVH58uoSt/aBzPtw+eq&quot;;</b>
+<b class="fc">&nbsp;        byte[] keys = Decoders.BASE64.decode(jwtSecret);</b>
+<b class="fc">&nbsp;        return Keys.hmacShaKeyFor(keys);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isTokenExpired(String token) {
+<b class="fc">&nbsp;        return getExpirationDate(token).before(new Date());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean tokenValidation(String token) {
+<b class="nc">&nbsp;        return !isTokenExpired(token);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-17 10:52</div>
+</div>
+</body>
+</html>

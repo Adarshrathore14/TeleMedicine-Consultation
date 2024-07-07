@@ -1,0 +1,82 @@
+server:
+  port: 9080
+  servlet:
+    context-path: /patient
+spring:
+  application:
+    name: patient-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/telemedicine?allowPublicKeyRetrieval=true&&useSSL=false
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092,localhost:9094
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: com.telemedicine.patient.customserde.CustomSerializer
+  cloud:
+    consul:
+      discovery:
+        healthCheckPath: /patient/actuator/health
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+resilience4j:
+  circuitbreaker:
+    instances:
+      Portal-Service:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        sliding-window-size: 5
+        sliding-window-type: count-based
+      Appointment-Service:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        sliding-window-size: 5
+        sliding-window-type: count-based
+        ignoreExceptions:
+          - com.telemedicine.patient.exceptions.InvalidDoctorIdException
+          - com.telemedicine.patient.exceptions.InvalidSlotIdException
+          - com.telemedicine.patient.exceptions.NoSchedulesAvailableException
+          - com.telemedicine.patient.exceptions.AppointmentAlreadyExistsException
+          - com.telemedicine.patient.exceptions.ServiceUnavailableException
+      Payment-Service:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        sliding-window-size: 5
+        sliding-window-type: count-based
+      Doctor-Service:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        sliding-window-size: 5
+        sliding-window-type: count-based
+springdoc:
+  api-docs:
+    path: /apiDocs

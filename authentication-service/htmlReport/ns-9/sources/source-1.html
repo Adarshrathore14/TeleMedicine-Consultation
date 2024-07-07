@@ -1,0 +1,153 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GenerateJwtToken</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.telemedicine.authentication.util</a>
+</div>
+
+<h1>Coverage Summary for Class: GenerateJwtToken (com.telemedicine.authentication.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GenerateJwtToken</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.telemedicine.authentication.util;
+&nbsp;import com.telemedicine.authentication.configurations.JwtConfiguration;
+&nbsp;import com.telemedicine.authentication.entity.AuthenticationEntity;
+&nbsp;import com.telemedicine.authentication.repository.AuthenticationRepository;
+&nbsp;import io.jsonwebtoken.Jwts;
+&nbsp;import io.jsonwebtoken.SignatureAlgorithm;
+&nbsp;import io.jsonwebtoken.io.Decoders;
+&nbsp;import io.jsonwebtoken.security.Keys;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;import java.security.Key;
+&nbsp;import java.util.Date;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;
+&nbsp;@Component
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+&nbsp;public class GenerateJwtToken {
+&nbsp;	private JwtConfiguration jwtConfiguration;
+&nbsp;	private AuthenticationRepository authenticationRepository;
+&nbsp;	public String generateToken(String name)
+&nbsp;	{
+&nbsp;		AuthenticationEntity authenticationEntity;
+<b class="fc">&nbsp;		authenticationEntity = authenticationRepository.findByUserName(name).orElse(new AuthenticationEntity());</b>
+<b class="fc">&nbsp;		if(authenticationEntity.getUserId()==null){</b>
+<b class="fc">&nbsp;			authenticationEntity = authenticationRepository.findByEmail(name).orElse(new AuthenticationEntity());</b>
+&nbsp;		}
+<b class="fc">&nbsp;		String userId = authenticationEntity.getUserId();</b>
+<b class="fc">&nbsp;		String userRole = authenticationEntity.getRole();</b>
+<b class="fc">&nbsp;		String userName = authenticationEntity.getUserName();</b>
+<b class="fc">&nbsp;		Map&lt;String,String&gt; claims = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;		claims.put(&quot;userId&quot;,userId);</b>
+<b class="fc">&nbsp;		claims.put(&quot;role&quot;, userRole);</b>
+<b class="fc">&nbsp;		return createToken(claims,userName);</b>
+&nbsp;	}
+&nbsp;	private String createToken(Map&lt;String, String&gt; claims, String username) {
+<b class="fc">&nbsp;		return Jwts.builder()</b>
+<b class="fc">&nbsp;				.setClaims(claims) </b>
+<b class="fc">&nbsp;				.setSubject(username)</b>
+<b class="fc">&nbsp;				.setIssuedAt(new Date(System.currentTimeMillis()))</b>
+<b class="fc">&nbsp;				.setExpiration((new Date(System.currentTimeMillis()+TimeUnit.MINUTES.toMillis(jwtConfiguration.getExpirationTime()))))</b>
+<b class="fc">&nbsp;				.signWith(getsignkey(),SignatureAlgorithm.HS256)</b>
+<b class="fc">&nbsp;				.compact();</b>
+&nbsp;	}
+&nbsp;	Key getsignkey() {
+<b class="fc">&nbsp;		byte[] keys = Decoders.BASE64.decode(jwtConfiguration.getSecretKey());</b>
+<b class="fc">&nbsp;		return Keys.hmacShaKeyFor(keys);</b>
+&nbsp;	}
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-17 10:55</div>
+</div>
+</body>
+</html>

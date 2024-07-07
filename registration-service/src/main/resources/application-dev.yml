@@ -1,0 +1,55 @@
+server:
+  port: 9099
+  servlet:
+    context-path: /registration
+spring:
+  application:
+    name: registration-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/telemedicine?allowPublicKeyRetrieval=true&&useSSL=false
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092,localhost:9094
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: com.telemedicine.registration.customserde.CustomSerializer
+    streams:
+      bootstrap-servers: localhost:9092, localhost:9094
+      application-id: "registration-service"
+  cloud:
+    consul:
+      discovery:
+        healthCheckPath: /registration/actuator/health
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+scheduled:
+  time: 0 */3 * * * *
+  activationCodeExpirationTime: 180000
+hospital:
+  code: AbcHospital
+patient:
+  role: Patient
+  code: patient
+  idLength: 5
+accountActivation:
+  baseUrl: http://localhost:9099/registration/activate
+  secretKey: AbcHospitalFSKfo+3f6jDrc3fOeJ2vtiLoB+Pn/zNpBv1gSykXb0I0jPVH58uoSt/aBzPtw+eq
+  expirationTime: 18000000
+message:
+  accountActivated: accountActivated
+
+
