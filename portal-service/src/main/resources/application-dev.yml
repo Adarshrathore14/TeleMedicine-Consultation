@@ -1,0 +1,39 @@
+server:
+  port: 9098
+  servlet:
+    context-path: /portal
+spring:
+  application:
+    name: portal-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/telemedicine?allowPublicKeyRetrieval=true&&useSSL=false
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  cloud:
+    consul:
+      discovery:
+        healthCheckPath: /portal/actuator/health
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+message:
+  resolved: resolved
+  active: active
+ticket:
+  length: 5
+  code: COMP
+springdoc:
+  api-docs:
+    path: /apiDocs

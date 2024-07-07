@@ -1,0 +1,10 @@
+com.telemedicine.portal
+com.telemedicine.portal.apidefinitions
+com.telemedicine.portal.configurations
+com.telemedicine.portal.controller
+com.telemedicine.portal.dto
+com.telemedicine.portal.entity
+com.telemedicine.portal.exceptions
+com.telemedicine.portal.repository
+com.telemedicine.portal.service
+com.telemedicine.portal.serviceimplementation

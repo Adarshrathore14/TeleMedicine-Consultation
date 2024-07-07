@@ -1,0 +1,89 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PatientRegistrationService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.telemedicine.registration.service</a>
+</div>
+
+<h1>Coverage Summary for Class: PatientRegistrationService (com.telemedicine.registration.service)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">PatientRegistrationService$MockitoMock$d0PLrScF</td>
+  </tr>
+  <tr>
+    <td class="name">PatientRegistrationService$MockitoMock$d0PLrScF$auxiliary$fisy9e5e</td>
+  </tr>
+  <tr>
+    <td class="name">PatientRegistrationService$MockitoMock$d0PLrScF$auxiliary$gtASSOCC</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.telemedicine.registration.service;
+&nbsp;import com.telemedicine.registration.dto.InitiateRegistrationRequestDto;
+&nbsp;import com.telemedicine.registration.dto.PatientDto;
+&nbsp;import com.telemedicine.registration.entity.PatientEntity;
+&nbsp;import com.telemedicine.registration.exceptions.AccountActivationException;
+&nbsp;import com.telemedicine.registration.exceptions.ActivationCodeException;
+&nbsp;import com.telemedicine.registration.exceptions.InvalidMobileNumberException;
+&nbsp;
+&nbsp;public interface PatientRegistrationService {
+&nbsp;    String initiateRegistration(InitiateRegistrationRequestDto initiateRegistrationRequest);
+&nbsp;    String generateActivationLink(PatientEntity patient) throws ActivationCodeException, InvalidMobileNumberException;
+&nbsp;    PatientDto activateAccount(String activationToken) throws AccountActivationException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-18 09:31</div>
+</div>
+</body>
+</html>

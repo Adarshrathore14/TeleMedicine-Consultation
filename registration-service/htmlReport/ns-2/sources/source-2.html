@@ -1,0 +1,151 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PreRegistrationKey</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.telemedicine.registration.accountactivationandinitiation</a>
+</div>
+
+<h1>Coverage Summary for Class: PreRegistrationKey (com.telemedicine.registration.accountactivationandinitiation)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PreRegistrationKey</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (5/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (14/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.telemedicine.registration.accountactivationandinitiation;
+&nbsp;import com.telemedicine.registration.configurations.HospitalMessageConfiguration;
+&nbsp;import com.telemedicine.registration.configurations.ScheduledTimeConfiguration;
+&nbsp;import com.telemedicine.registration.exceptions.InvalidMobileNumberException;
+&nbsp;import lombok.NonNull;
+&nbsp;import lombok.RequiredArgsConstructor;
+&nbsp;import org.springframework.scheduling.annotation.Scheduled;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;import java.util.*;
+&nbsp;@Component
+<b class="fc">&nbsp;@RequiredArgsConstructor</b>
+&nbsp;public class PreRegistrationKey {
+&nbsp;    @NonNull
+&nbsp;    private ScheduledTimeConfiguration scheduledTimeConfiguration;
+&nbsp;    @NonNull
+&nbsp;    private HospitalMessageConfiguration hospitalMessageConfiguration;
+&nbsp;    @NonNull
+&nbsp;    private Random randomCodeGenerator;
+&nbsp;    private  static final String SCHEDULED_DURATION = &quot;0 */3 * * * *&quot;;
+<b class="fc">&nbsp;    private final Map&lt;String,StringExpiration&gt; activationCodes = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;    public String generateActivationCode(String mobileNumber){
+<b class="fc">&nbsp;        String activationCode = hospitalMessageConfiguration.getCode()+</b>
+<b class="fc">&nbsp;                randomCodeGenerator.nextInt(9999-1000+1)+1000;</b>
+<b class="fc">&nbsp;        StringExpiration stringExpiration = new StringExpiration(activationCode,new Date(System.currentTimeMillis()),</b>
+<b class="fc">&nbsp;                new Date(System.currentTimeMillis()+ scheduledTimeConfiguration.getActivationCodeExpirationTime()));</b>
+<b class="fc">&nbsp;        addActivationCodes(mobileNumber,stringExpiration);</b>
+<b class="fc">&nbsp;        return activationCode;</b>
+&nbsp;    }
+&nbsp;    @Scheduled(cron = SCHEDULED_DURATION)
+&nbsp;    private void deleteActivationCode(){
+<b class="nc">&nbsp;        activationCodes.values().removeIf(stringExpiration -&gt; stringExpiration.getExpirationTime().after(</b>
+<b class="nc">&nbsp;                new Date(System.currentTimeMillis())));</b>
+&nbsp;    }
+&nbsp;    public boolean checkCode(String mobileNumber,String code) throws InvalidMobileNumberException {
+<b class="fc">&nbsp;        StringExpiration stringExpiration = getActivationCode(mobileNumber);</b>
+<b class="fc">&nbsp;        if(stringExpiration==null){</b>
+<b class="fc">&nbsp;            throw new InvalidMobileNumberException(&quot;enter a correct mobile number&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return stringExpiration.getGenerateKey().equals(code);</b>
+&nbsp;    }
+&nbsp;    private void addActivationCodes(String mobileNumber,StringExpiration stringExpiration){
+<b class="fc">&nbsp;        activationCodes.put(mobileNumber,stringExpiration);</b>
+&nbsp;    }
+&nbsp;    private StringExpiration getActivationCode(String mobileNumber){
+<b class="fc">&nbsp;        return activationCodes.get(mobileNumber);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-18 09:31</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > AuthenticationServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.telemedicine.authentication.serviceimplementation</a>
+</div>
+
+<h1>Coverage Summary for Class: AuthenticationServiceImpl (com.telemedicine.authentication.serviceimplementation)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AuthenticationServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70.7%
+  </span>
+  <span class="absValue">
+    (29/41)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.telemedicine.authentication.serviceimplementation;
+&nbsp;import com.telemedicine.authentication.dto.LoginDetails;
+&nbsp;import com.telemedicine.authentication.entity.AuthenticationEntity;
+&nbsp;import com.telemedicine.authentication.repository.AuthenticationRepository;
+&nbsp;import com.telemedicine.authentication.service.AuthenticationService;
+&nbsp;import com.telemedicine.authentication.util.GenerateJwtToken;
+&nbsp;import jakarta.annotation.PostConstruct;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.springframework.kafka.annotation.KafkaListener;
+&nbsp;import org.springframework.security.authentication.AuthenticationManager;
+&nbsp;import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+&nbsp;import org.springframework.security.core.Authentication;
+&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import javax.security.auth.login.AccountNotFoundException;
+&nbsp;@Service
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;public class AuthenticationServiceImpl implements AuthenticationService {
+&nbsp;    private final GenerateJwtToken generateJwtToken;
+&nbsp;    private final AuthenticationManager authenticationManager;
+&nbsp;    private final AuthenticationRepository authenticationRepository;
+&nbsp;    private final PasswordEncoder passwordEncoder;
+&nbsp;    @Override
+&nbsp;    public String authenticate(LoginDetails loginDetails) throws AccountNotFoundException {
+<b class="fc">&nbsp;        String userName = loginDetails.getEmail()!=null? loginDetails.getEmail() : loginDetails.getUserName();</b>
+<b class="fc">&nbsp;        String password = loginDetails.getPassword();</b>
+<b class="fc">&nbsp;        Authentication authentication = authenticationManager.authenticate(</b>
+&nbsp;                new UsernamePasswordAuthenticationToken(userName,password));
+<b class="fc">&nbsp;        if(!authentication.isAuthenticated()) {</b>
+<b class="fc">&nbsp;            throw new AccountNotFoundException(&quot;Invalid Credentials&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return generateJwtToken.generateToken(userName);</b>
+&nbsp;    }
+&nbsp;    @PostConstruct
+&nbsp;    private void initialize(){
+<b class="fc">&nbsp;        AuthenticationEntity adminEntity = new AuthenticationEntity();</b>
+<b class="fc">&nbsp;        adminEntity.setUserId(&quot;admin&quot;);</b>
+<b class="fc">&nbsp;        adminEntity.setEmail(&quot;admin@gmail.com&quot;);</b>
+<b class="fc">&nbsp;        adminEntity.setUserName(&quot;admin&quot;);</b>
+<b class="fc">&nbsp;        adminEntity.setRole(&quot;Admin&quot;);</b>
+<b class="fc">&nbsp;        adminEntity.setPassword(passwordEncoder.encode(&quot;Admin&quot;));</b>
+<b class="fc">&nbsp;        if(!authenticationRepository.existsByUserId(adminEntity.getUserId())){</b>
+<b class="nc">&nbsp;            authenticationRepository.save(adminEntity);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        AuthenticationEntity doctorEntity = new AuthenticationEntity();</b>
+<b class="fc">&nbsp;        doctorEntity.setUserId(&quot;doctor&quot;);</b>
+<b class="fc">&nbsp;        doctorEntity.setEmail(&quot;doctor@gmail.com&quot;);</b>
+<b class="fc">&nbsp;        doctorEntity.setUserName(&quot;doctor&quot;);</b>
+<b class="fc">&nbsp;        doctorEntity.setRole(&quot;Doctor&quot;);</b>
+<b class="fc">&nbsp;        doctorEntity.setPassword(passwordEncoder.encode(&quot;doctor&quot;));</b>
+<b class="fc">&nbsp;        if(!authenticationRepository.existsByUserId(doctorEntity.getUserId())){</b>
+<b class="nc">&nbsp;            authenticationRepository.save(doctorEntity);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        AuthenticationEntity iTTeamEntity = new AuthenticationEntity();</b>
+<b class="fc">&nbsp;        iTTeamEntity.setUserId(&quot;IT&quot;);</b>
+<b class="fc">&nbsp;        iTTeamEntity.setEmail(&quot;ITTeam@gmail.com&quot;);</b>
+<b class="fc">&nbsp;        iTTeamEntity.setUserName(&quot;IT&quot;);</b>
+<b class="fc">&nbsp;        iTTeamEntity.setRole(&quot;IT&quot;);</b>
+<b class="fc">&nbsp;        iTTeamEntity.setPassword(passwordEncoder.encode(&quot;ITTeam&quot;));</b>
+<b class="fc">&nbsp;        if(!authenticationRepository.existsByUserId(iTTeamEntity.getUserId())){</b>
+<b class="nc">&nbsp;            authenticationRepository.save(iTTeamEntity);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @KafkaListener(topics = &quot;patient-topic&quot;,groupId = &quot;authentication&quot;)
+&nbsp;    private void consume(AuthenticationEntity authenticationEntity) {
+<b class="nc">&nbsp;        if (authenticationEntity != null) {</b>
+<b class="nc">&nbsp;            if (!authenticationRepository.existsByUserId(authenticationEntity.getUserId())) {</b>
+<b class="nc">&nbsp;                authenticationRepository.save(authenticationEntity);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            AuthenticationEntity oldDetails = authenticationRepository.findByUserId(authenticationEntity.getUserId())</b>
+<b class="nc">&nbsp;                    .orElse(new AuthenticationEntity());</b>
+<b class="nc">&nbsp;            oldDetails.setEmail(authenticationEntity.getEmail());</b>
+<b class="nc">&nbsp;            oldDetails.setPassword(authenticationEntity.getPassword());</b>
+<b class="nc">&nbsp;            oldDetails.setUserName(authenticationEntity.getUserName());</b>
+<b class="nc">&nbsp;            authenticationRepository.save(oldDetails);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-17 10:55</div>
+</div>
+</body>
+</html>

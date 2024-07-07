@@ -1,0 +1,56 @@
+server:
+  port: 8095
+spring:
+  application:
+    name: telemedicine-gateway
+  cloud:
+    gateway:
+      mvc:
+        routes:
+        - id: registration-service
+          uri: lb://registration-service
+          predicates:
+          - Path=/registration/**
+        - id: authentication-service
+          uri: lb://authentication-service
+          predicates:
+          - Path=/authService/**
+        - id: patient-service
+          uri: lb://patient-service
+          predicates:
+          - Path=/patient/**
+        - id: portal-service
+          uri: lb://portal-service
+          predicates:
+          - Path=/portal/**
+        - id: appointment-service
+          uri: lb://appointment-service
+          predicates:
+          - Path=/appointmentService/**
+        - id: ADMIN-SERVICE
+          uri: lb://ADMIN-SERVICE
+          predicates:
+            - Path=/admin/**
+        - id: doctor-Service
+          uri: lb://doctor-Service
+          predicates:
+            - Path=/doctor/**
+        - id: Payment-Service
+          uri: lb://Payment-Service
+          predicates:
+            - Path=/payments/**
+        - id: Notification-service
+          uri: lb://Notification-service
+          predicates:
+            - Path=/notifications/**
+        - id: billing-service
+          uri: lb://billing-service
+          predicates:
+            - Path=/billing/**
+        - id: video-call
+          uri: lb://video-call
+          predicates:
+            - Path=/videoCall/**
+    consul:
+      host: localhost
+      port: 8500

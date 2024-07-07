@@ -1,0 +1,65 @@
+server:
+  port: 9095
+  servlet:
+    context-path: /appointmentService
+spring:
+  application:
+    name: appointment-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/telemedicine?allowPublicKeyRetrieval=true&&useSSL=false
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092,localhost:9094
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: com.telemedicine.appointment.customserde.CustomSerializer
+  cloud:
+    consul:
+      discovery:
+        healthCheckPath: /appointmentService/actuator/health
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+resilience4j:
+  circuitbreaker:
+    instances:
+      Billing-Service:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        sliding-window-size: 5
+        sliding-window-type: count-based
+      Doctor-Service:
+        registerHealthIndicator: true
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        sliding-window-size: 5
+        sliding-window-type: count-based
+payment:
+  pending: pending
+  paid: paid
+message:
+  success: success
+springdoc:
+  api-docs:
+    path: /apiDocs
